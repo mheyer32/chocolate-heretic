@@ -23,9 +23,6 @@
 #include "m_misc.h"
 #include "w_wad.h"
  
-
-#include "doomsound.h"
-
 struct Library *MHIBase;
  
 // Initialize music subsystem

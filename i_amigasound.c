@@ -11,7 +11,8 @@
 #include <proto/exec.h>
 #include <proto/dos.h>
 #include <proto/graphics.h>
-#include <proto/doomsnd.h>
+#include <proto/alib.h>
+#include "doomsound.h"
 
 /* #include <math.h> */
 
@@ -124,14 +125,14 @@ static void *getsfx (char *sfxname, int *len, int voice)
 
 /**********************************************************************/
 // Init at program start...
-void I_Amiga_InitSound(boolean use_sfx_prefix)
+boolean I_Amiga_InitSound(boolean use_sfx_prefix)
 {
   int i;
   
   
   
     if (M_CheckParm("-nosfx"))
-      return;
+      return true;
     
 // Secure and configure sound device first.
   fprintf( stderr, "I_InitSound: ");
@@ -158,7 +159,7 @@ if ((DoomSndBase = OpenLibrary ("doomsound.library",37)) != NULL) {
   }
   
   fprintf (stderr, "I_InitSound: sound module ready\n");
-                                                        
+  return true;
 }
 /**********************************************************************/
 // ... update sound buffer and audio device at runtime...

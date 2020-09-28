@@ -28,9 +28,6 @@
 #ifndef __M_FIXED__
 #define __M_FIXED__
 
-
-
-
 //
 // Fixed point, 32bit as 16.16.
 //
@@ -76,7 +73,7 @@ static __inline int ULongDiv(int eins,int zwei)
 	return eins;
 }
 
-extern __inline int LongRest(int eins,int zwei)
+static __inline int LongRest(int eins,int zwei)
 {
 	__asm __volatile
 	(
@@ -91,7 +88,7 @@ extern __inline int LongRest(int eins,int zwei)
 	return eins;
 }
 
-extern __inline int ULongRest(int eins,int zwei)
+static __inline int ULongRest(int eins,int zwei)
 {
 	__asm __volatile
 	(

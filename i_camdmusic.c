@@ -16,18 +16,13 @@
 #include <proto/graphics.h>
 
 /* CAMD MIDI Library Includes */
-#include <clib/camd_protos.h>
 #include <midi/camd.h>
 #include <midi/camdbase.h>
 #include <midi/mididefs.h>
-#include <pragmas/camd_pragmas.h>
+#include <proto/camd.h>
 
 /* CAMD Real Time Library Includes */
-
 #include <libraries/realtime.h>
-
-#include <proto/camd.h>
-#include <inline/camd.h>
 
 #include "z_zone.h"
 
@@ -42,16 +37,6 @@
 
 #include "doomsound.h"
 
-/*-------------------*/
-/*     Prototypes    */
-/*-------------------*/
-void kill(char *killstring);
-ULONG ComVarLen (UBYTE *value);
-UBYTE *DecodeEvent(UBYTE *,struct DecTrack *, ULONG);
-LONG transfer(struct DecTrack *,ULONG,LONG);
-ULONG changetempo(ULONG,ULONG,ULONG);
-
-static void CAMDWorker(void);
 /*---------------------*/
 /* S M F  Header  File */
 /*---------------------*/
@@ -153,13 +138,23 @@ MS_Ctrl | 14, MM_AllOff, 30,
 MS_Ctrl | 15, MM_AllOff, 30
 };
 
+/*-------------------*/
+/*     Prototypes    */
+/*-------------------*/
+static void kill(char *killstring);
+static ULONG ComVarLen (UBYTE *value);
+static UBYTE *DecodeEvent(UBYTE *ptdata,struct DecTrack *pDTdata, ULONG deswitch);
+static LONG transfer(struct DecTrack *pDT,ULONG mswitch,LONG ylen);
+static ULONG changetempo(ULONG,ULONG,ULONG);
+
+static void CAMDWorker(void);
+
 /*-----------------------------*/
 /*     CODE  Starts  Here      */
 /*-----------------------------*/
 
 ULONG
-ComVarLen (value)
-UBYTE *value;
+ComVarLen (UBYTE *value)
 {
    register ULONG newval;
    register UBYTE x;
@@ -897,7 +892,7 @@ music_module_t music_camd_module =
 /*--------------------------------------------------*/  
 /* Translate from raw track data to a decoded event */
 /*--------------------------------------------------*/  
-UBYTE *DecodeEvent(UBYTE *ptdata,struct DecTrack *pDTdata, ULONG deswitch)
+static UBYTE *DecodeEvent(UBYTE *ptdata,struct DecTrack *pDTdata, ULONG deswitch)
 {
    LONG status;
    ULONG length;
@@ -1036,8 +1031,7 @@ UBYTE *DecodeEvent(UBYTE *ptdata,struct DecTrack *pDTdata, ULONG deswitch)
 /*------------------------------------------------------------*/
 /* Transfer the decoded event to the fill buffer for playback */
 /*------------------------------------------------------------*/
-LONG
-transfer(struct DecTrack *pDT,ULONG mswitch,LONG ylen)
+static LONG transfer(struct DecTrack *pDT,ULONG mswitch,LONG ylen)
 {
    ULONG y;
    y=(ULONG )ylen;

@@ -45,6 +45,7 @@
 #else
 
 #include <strings.h>
+#include <stdint.h>
 
 #endif
 
@@ -97,9 +98,15 @@ typedef enum
 
 #endif
 
+#ifndef _UINT32_T_DECLARED
 typedef unsigned long uint32_t;
+#endif
+#ifndef _UINT16_T_DECLARED
 typedef unsigned short uint16_t;
+#endif
+#ifndef _UINT8_T_DECLARED
 typedef unsigned char uint8_t;
+#endif
 typedef unsigned char byte;
 
 #include <limits.h>

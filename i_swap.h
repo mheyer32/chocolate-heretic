@@ -37,7 +37,7 @@
 // These are deliberately cast to signed values; this is the behaviour
 // of the macros in the original source and some code relies on it.
 
-extern inline short SwapSHORT(short val)
+static inline short SwapSHORT(short val)
 {
 	__asm __volatile
 	(
@@ -50,7 +50,7 @@ extern inline short SwapSHORT(short val)
 	return val;
 }
 
-extern inline long SwapLONG(long val)
+static inline long SwapLONG(long val)
 {
 	__asm __volatile
 	(
